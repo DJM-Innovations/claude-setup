@@ -1,0 +1,172 @@
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "1d38768ae78c4728a9438732707b8af6.7XpLC3qro0o4ga4O",
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:8787",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": 1,
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1000000",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-4.5-air",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-5.2[1m]",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-5.2[1m]"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/typescript-quality/quality-check.js",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/ts-typecheck.sh",
+            "timeout": 40
+          },
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/test-affected.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/hardcode-scan.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/comment-prune-scan.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dist/import-error-detector.mjs",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dist/pre-compact-continuity.mjs"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dist/path-rules.mjs",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "resume|compact|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dist/session-start-continuity.mjs"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash $HOME/.claude/hooks/status-line.sh"
+  },
+  "enabledPlugins": {
+    "agent-skills-toolkit@awesome-agent-skills": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "compound-engineering@compound-engineering-plugin": true,
+    "frontend-design@claude-plugins-official": true,
+    "fullstack-dev-skills@fullstack-dev-skills": true,
+    "langchain-skills@langchain-skills": true,
+    "skill-creator@skillx-marketplace": true,
+    "skillx@skillx-marketplace": true,
+    "superpowers@superpowers-marketplace": true,
+    "vercel@claude-plugins-official": true,
+    "andrej-karpathy-skills@karpathy-skills": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "glm-plan-usage@zai-coding-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "awesome-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "libukai/awesome-agent-skills"
+      }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "compound-engineering-plugin": {
+      "source": {
+        "source": "github",
+        "repo": "EveryInc/compound-engineering-plugin"
+      }
+    },
+    "fullstack-dev-skills": {
+      "source": {
+        "source": "github",
+        "repo": "jeffallan/claude-skills"
+      }
+    },
+    "langchain-skills": {
+      "source": {
+        "source": "github",
+        "repo": "langchain-ai/langchain-skills"
+      }
+    },
+    "skillx-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "nextlevelbuilder/skillx"
+      }
+    },
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    },
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
+      }
+    },
+    "zai-coding-plugins": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/danielnfodjo/.npm/_npx/2f024689b4d0d3b0/node_modules/@z_ai/coding-helper/zai-coding-plugins"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "preferredNotifChannel": "ghostty",
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true
+}

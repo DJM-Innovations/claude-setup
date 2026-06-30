@@ -1,0 +1,154 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/typescript-quality/quality-check.js",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/ts-typecheck.sh",
+            "timeout": 40
+          },
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/test-affected.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/hardcode-scan.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/comment-prune-scan.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dist/import-error-detector.mjs",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dist/pre-compact-continuity.mjs"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dist/path-rules.mjs",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "resume|compact|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dist/session-start-continuity.mjs"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash $HOME/.claude/hooks/status-line.sh"
+  },
+  "enabledPlugins": {
+    "agent-skills-toolkit@awesome-agent-skills": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "compound-engineering@compound-engineering-plugin": true,
+    "frontend-design@claude-plugins-official": true,
+    "fullstack-dev-skills@fullstack-dev-skills": true,
+    "langchain-skills@langchain-skills": true,
+    "skill-creator@skillx-marketplace": true,
+    "skillx@skillx-marketplace": true,
+    "superpowers@superpowers-marketplace": true,
+    "vercel@claude-plugins-official": true,
+    "andrej-karpathy-skills@karpathy-skills": true
+  },
+  "extraKnownMarketplaces": {
+    "awesome-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "libukai/awesome-agent-skills"
+      }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "compound-engineering-plugin": {
+      "source": {
+        "source": "github",
+        "repo": "EveryInc/compound-engineering-plugin"
+      }
+    },
+    "fullstack-dev-skills": {
+      "source": {
+        "source": "github",
+        "repo": "jeffallan/claude-skills"
+      }
+    },
+    "langchain-skills": {
+      "source": {
+        "source": "github",
+        "repo": "langchain-ai/langchain-skills"
+      }
+    },
+    "skillx-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "nextlevelbuilder/skillx"
+      }
+    },
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    },
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "preferredNotifChannel": "ghostty",
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "model": "claude-opus-4-8"
+}

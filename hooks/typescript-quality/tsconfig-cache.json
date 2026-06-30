@@ -1,0 +1,13 @@
+{
+  "hashes": {
+    "/Users/danielnfodjo/Dev/social-content-machine/tsconfig.json": "8b4bf7ef67ca59314015f53f4342d0ed302360de686eb697a8d9a3f71a2d4a29"
+  },
+  "mappings": {
+    "src/**/*.ts": {
+      "configPath": "/Users/danielnfodjo/Dev/social-content-machine/tsconfig.json",
+      "excludes": [
+        "node_modules"
+      ]
+    }
+  }
+}
